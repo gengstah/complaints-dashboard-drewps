@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0" metadata-complete="false">
+  <display-name>Archetype Created Web Application</display-name>
+  
+  <!-- ========================================================== -->
+  <!-- Servlet Configuration - START -->
+  <!-- ========================================================== -->
+  <servlet>
+    <servlet-name>dispatcher</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>dispatcher</servlet-name>
+    <url-pattern>*.html</url-pattern>
+  </servlet-mapping>
+  <!-- ========================================================== -->
+  <!-- Servlet Configuration - END -->
+  <!-- ========================================================== -->
+  
+  <!-- ========================================================== -->
+  <!-- Session Configuration - START -->
+  <!-- ========================================================== -->
+  <session-config>
+  	<session-timeout>60</session-timeout>
+  </session-config>
+  <!-- ========================================================== -->
+  <!-- Session Configuration - END -->
+  <!-- ========================================================== -->
+  
+  <!-- ========================================================== -->
+  <!-- JSP Configuration - START -->
+  <!-- ========================================================== -->
+  <jsp-config>
+  	<jsp-property-group>
+  		<url-pattern>*.jsp</url-pattern>
+  		<scripting-invalid>true</scripting-invalid>
+  	</jsp-property-group>
+  </jsp-config>
+  <!-- ========================================================== -->
+  <!-- JSP Configuration - END -->
+  <!-- ========================================================== -->
+  
+  <!-- ========================================================== -->
+  <!-- Security Configuration - START -->
+  <!-- ========================================================== -->
+  <login-config>
+  	<auth-method>FORM</auth-method>
+  	<form-login-config>
+  		<form-login-page>/login.jsp</form-login-page>
+  		<form-error-page>/error.jsp</form-error-page>
+  	</form-login-config>
+  </login-config>
+  
+  <security-role>
+  	<role-name>administrator</role-name>
+  </security-role>
+  
+  <security-role>
+  	<role-name>user</role-name>
+  </security-role>
+  
+  <security-constraint>
+  	<web-resource-collection>
+  		<web-resource-name>ProjectManagement</web-resource-name>
+  		<description>Administrator and user access only</description>
+  		<url-pattern>/secured/*</url-pattern>
+  		<http-method>POST</http-method>
+  		<http-method>GET</http-method>
+  	</web-resource-collection>
+  	
+  	<auth-constraint>
+  		<role-name>administrator</role-name>
+  		<role-name>user</role-name>
+  	</auth-constraint>
+  </security-constraint>
+  
+  <security-constraint>
+  	<web-resource-collection>
+  		<web-resource-name>AdminProjectManagement</web-resource-name>
+  		<description>Administrator access only</description>
+  		<url-pattern>/secured/admin/*</url-pattern>
+  		<http-method>POST</http-method>
+  		<http-method>GET</http-method>
+  	</web-resource-collection>
+  	
+  	<auth-constraint>
+  		<role-name>administrator</role-name>
+  	</auth-constraint>
+  </security-constraint>
+  <!-- ========================================================== -->
+  <!-- Security Configuration - END -->
+  <!-- ========================================================== -->
+  
+  <!-- ========================================================== -->
+  <!-- Welcome File Lists - START -->
+  <!-- ========================================================== -->
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+  <!-- ========================================================== -->
+  <!-- Welcome File Lists - END -->
+  <!-- ========================================================== -->
+</web-app>
