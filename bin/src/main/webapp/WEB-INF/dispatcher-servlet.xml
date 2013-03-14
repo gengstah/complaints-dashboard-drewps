@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+		http://www.springframework.org/schema/mvc
+	    http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+	    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd">
+	
+	<!-- 
+		This bean is used to tell Spring where to look for resources (i.e., JSP files)
+		when a controller returns a String literal that will probably match a resource 
+	-->
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix">
+			<value>/WEB-INF/jsp/</value>
+		</property>
+		<property name="suffix">
+			<value>.jsp</value>
+		</property>
+	</bean>
+	
+	<bean name="/index.html" class="org.drewps.web.HomePageController" />
+	
+	<bean id="pum" class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager">
+		<property name="persistenceXmlLocation" value="classpath*:META-INF/persistence.xml" />
+		<property name="dataSources">
+			<map>
+				<entry key="localDataSource" value-ref="dataSource" />
+			</map>
+		</property>
+		<property name="defaultDataSource" ref="dataSource"/>
+	</bean>
+	
+	<bean id="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceUnitManager" ref="pum"/>
+	</bean>
+	
+	<!-- bean post-processor for JPA annotations -->
+	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
+	
+	<context:property-placeholder location="classpath:jdbc.properties"/>
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="url" value="${jdbc.url}" />
+	    <property name="username" value="${jdbc.username}" />
+	    <property name="password" value="${jdbc.password}" />
+	    <property name="driverClassName" value="${jdbc.driverClassName}" />
+	</bean>
+	
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename" value="messages" />
+	</bean>
+	
+	<!--<bean id="pool" class="org.apache.commons.pool.impl.GenericObjectPool">
+	    <property name="minEvictableIdleTimeMillis"><value>3600000</value></property>
+	    <property name="timeBetweenEvictionRunsMillis"><value>600000</value></property>
+	</bean>
+	
+	<bean id="dsConnectionFactory" class="org.apache.commons.dbcp.DataSourceConnectionFactory">
+	    <constructor-arg><ref bean="dataSource"/></constructor-arg>
+	</bean>
+	
+	<bean id="poolableConnectionFactory" class="org.apache.commons.dbcp.PoolableConnectionFactory">
+	    <constructor-arg index="0"><ref bean="dsConnectionFactory"/></constructor-arg>
+	    <constructor-arg index="1"><ref bean="pool"/></constructor-arg>
+	    <constructor-arg index="2"><null/></constructor-arg>
+	    <constructor-arg index="3"><null/></constructor-arg>
+	    <constructor-arg index="4"><value>false</value></constructor-arg>
+	    <constructor-arg index="5"><value>true</value></constructor-arg>
+	</bean>
+	
+	<bean id="pooledDS" class="org.apache.commons.dbcp.PoolingDataSource" depends-on="poolableConnectionFactory">
+	    <constructor-arg><ref bean="pool"/></constructor-arg>
+	</bean>
+	
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="pooledDS" />
+		<property name="annotatedClasses">
+			<list>
+				<value>com.projectmanagement.domain.Company</value>
+				<value>com.projectmanagement.domain.Labor</value>
+				<value>com.projectmanagement.domain.Material</value>
+				<value>com.projectmanagement.domain.Miscellaneous</value>
+				<value>com.projectmanagement.domain.MiscellaneousExpense</value>
+				<value>com.projectmanagement.domain.Personnel</value>
+				<value>com.projectmanagement.domain.Project</value>
+				<value>com.projectmanagement.domain.PurchaseOrder</value>
+				<value>com.projectmanagement.domain.Role</value>
+				<value>com.projectmanagement.domain.User</value>
+				<value>com.projectmanagement.domain.ProjectSequence</value>
+				<value>com.projectmanagement.domain.CompanySequence</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				
+				Using Apache DBCP
+				<prop key="hibernate.dbcp.maxActive">15</prop>
+				<prop key="hibernate.dbcp.maxIdle">15</prop>
+				<prop key="hibernate.dbcp.maxWait">-1</prop>
+				<prop key="hibernate.dbcp.whenExhaustedAction">1</prop>
+				<prop key="hibernate.dbcp.testOnBorrow">true</prop>
+				<prop key="hibernate.dbcp.validationQuery">SELECT NAME FROM USERS</prop>
+				<prop key="hibernate.dbcp.ps.maxActive">15</prop>
+				<prop key="hibernate.dbcp.ps.maxIdle">15</prop>
+				<prop key="hibernate.dbcp.ps.maxWait">60000</prop>
+				<prop key="hibernate.dbcp.ps.whenExhaustedAction">1</prop>
+				
+				Auto generate database schemas
+				<prop key="hibernate.hbm2ddl.auto">create</prop>
+			</props>
+		</property>
+	</bean>
+	
+	
+		Declare properties that contains error messages. This messages are also
+		subject for internationalization.
+	
+	
+	
+	Validators
+	<bean id="projectValidator" class="com.projectmanagement.validator.ProjectValidator" />
+	<bean id="companyValidator" class="com.projectmanagement.validator.CompanyValidator" />
+	<bean id="purchaseOrderValidator" class="com.projectmanagement.validator.PurchaseOrderValidator" />
+	
+	Data access object
+	<bean id="dao" class="com.projectmanagement.dao.DataAccessObjectImpl" />
+	
+	
+		Enable the configuration of transactional behavior based on annotations 
+	
+  	<tx:annotation-driven transaction-manager="txManager"/>
+	
+	
+		A PlatformTransactionManager is still required 
+	
+	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="pooledDS"/>
+	</bean>
+	
+	
+		Declare package here to allow Spring to scan classes that are annotated.
+	
+	<context:component-scan base-package="com.projectmanagement.web" />
+	<mvc:annotation-driven />
+	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" /> -->
+</beans>
