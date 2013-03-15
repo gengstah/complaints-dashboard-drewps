@@ -14,7 +14,7 @@ import javax.persistence.Table;
 import org.apache.catalina.realm.RealmBase;
 
 @Entity
-@Table(name="USER")
+@Table(name="USERS")
 public class User implements Serializable {
 	private static final long serialVersionUID = -3045716097358622386L;
 	private String name;
@@ -67,7 +67,7 @@ public class User implements Serializable {
 	}
 
 	@ManyToMany
-	@JoinTable(name = "USER_ROLENAME", joinColumns = { @JoinColumn(name = "USERNAME", referencedColumnName = "USERNAME") }, inverseJoinColumns = { @JoinColumn(name = "ROLENAME", referencedColumnName = "ROLENAME") })
+	@JoinTable(name = "USERS_ROLENAMES", joinColumns = { @JoinColumn(name = "USERNAME", referencedColumnName = "USERNAME") }, inverseJoinColumns = { @JoinColumn(name = "ROLENAME", referencedColumnName = "ROLENAME") })
 	public List<Role> getRoles() {
 		return roles;
 	}

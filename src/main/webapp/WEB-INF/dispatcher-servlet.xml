@@ -25,7 +25,9 @@
 		</property>
 	</bean>
 	
-	<bean name="/index.html" class="org.drewps.web.HomePageController" />
+	<bean name="/secured/index.html" class="org.drewps.web.HomePageController">
+		<property name="dao" ref="dao" />
+	</bean>
 	
 	<bean id="pum" class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager">
 		<property name="persistenceXmlLocation" value="classpath*:META-INF/persistence.xml" />
@@ -41,7 +43,10 @@
 		<property name="persistenceUnitManager" ref="pum"/>
 	</bean>
 	
-	<!-- bean post-processor for JPA annotations -->
+	<!--
+		Bean post-processor for JPA annotations
+		Automatically detect JPA annotations such as @PersistenceContext
+	-->
 	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
 	
 	<context:property-placeholder location="classpath:jdbc.properties"/>
@@ -51,6 +56,8 @@
 	    <property name="password" value="${jdbc.password}" />
 	    <property name="driverClassName" value="${jdbc.driverClassName}" />
 	</bean>
+	
+	<bean id="dao" class="org.drewps.dao.DataAccessObjectImpl" />
 	
 	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
 		<property name="basename" value="messages" />
