@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title><fmt:message key="complaintsDashboardHeader" /></title>
+<title><fmt:message key="complaintsDashboardTitle" /></title>
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/style.css" />">
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/menu.css" />">
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/jquery-ui-1.8.16.custom.css" />">
@@ -15,7 +15,7 @@
 </head>
 <body class = "standard">
 <div align="center">
-<form id=""complaintForm"" name="complaintForm" method="POST" action="<c:url value = "/secured/admin/companies/list.html"/>">
+<form id="complaintForm" name="complaintForm" method="POST" action="<c:url value = "/secured/admin/companies/list.html"/>">
 	<table border="1" class="altrowstable">
 		<%-- <tr>
 			<td><%@ include file="include/banner.jsp" %></td>
@@ -53,6 +53,52 @@
 				<table width="790">
 					<thead>
 						<tr class="evenrowcolor">
+							<th><font color="#FFFFFF"><fmt:message key="id" /></font></th>
+							<th><font color="#FFFFFF"><fmt:message key="ticketNo" /></font></th>
+							<th><font color="#FFFFFF"><fmt:message key="client" /></font></th>
+							<th><font color="#FFFFFF"><fmt:message key="date" /></font></th>
+							<th><font color="#FFFFFF"><fmt:message key="remarksAndAnalysis" /></font></th>
+							<th><font color="#FFFFFF"><fmt:message key="responsibleTeam" /></font></th>
+							<th><font color="#FFFFFF"><fmt:message key="status" /></font></th>
+							<th><font color="#FFFFFF"><fmt:message key="rsagOwner" /></font></th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach items="${ openComplaints }" var = "openComplaint" varStatus="status">
+							<tr onMouseOver="this.className='highlight'" onMouseOut="this.className=''" onclick="window.location = '<c:url value='/secured/admin/companies/companyinfo.html?companyAccountNo=${ company.accountNo }' />';">
+								<td>${ openComplaint.id }</td>
+								<td>${ openComplaint.ticketNo }</td>
+								<td>${ openComplaint.client }</td>
+								<td><fmt:formatDate type="date" dateStyle="short" value="${ openComplaint.date }" /></td>
+								<td>${ openComplaint.remarksAndAnalysis }</td>
+								<td>${ openComplaint.responsibleTeam }</td>
+								<td>${ openComplaint.status }</td>
+								<td>${ openComplaint.rsagOwner }</td>
+							</tr>
+						</c:forEach>
+						<tr><td colspan="8">&nbsp;</td></tr>
+					</tbody>
+					<tfoot>
+						<%-- <tr>
+							<c:import url="include/pageNavigation.jsp" />
+						</tr> --%>
+						<tr>
+							<td colspan="8" align="left">
+								<input id="addComplaintButton" type="button" value="<fmt:message key="addComplaintButton" />" onclick="window.location = '<c:url value='/secured/admin/complaint/add.html' />';" />
+							</td>
+						</tr>
+					</tfoot>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td>
+				<table width="790">
+					<thead>
+						<tr class="evenrowcolor">
 							<th><font color="#FFFFFF"><fmt:message key="number" /></font></th>
 							<th><font color="#FFFFFF"><fmt:message key="ticketNo" /></font></th>
 							<th><font color="#FFFFFF"><fmt:message key="client" /></font></th>
@@ -64,16 +110,16 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach items="${ complaints }" var = "complaint" varStatus="status">
+						<c:forEach items="${ closedComplaints }" var = "closedComplaint" varStatus="status">
 							<tr onMouseOver="this.className='highlight'" onMouseOut="this.className=''" onclick="window.location = '<c:url value='/secured/admin/companies/companyinfo.html?companyAccountNo=${ company.accountNo }' />';">
-								<td>${ complaint.id }</td>
-								<td>${ complaint.ticketNo }</td>
-								<td>${ complaint.client }</td>
-								<td><fmt:formatDate type="date" dateStyle="short" value="${ complaint.date }" /></td>
-								<td>${ complaint.remarksAndAnalysis }</td>
-								<td>${ complaint.responsibleTeam }</td>
-								<td>${ complaint.status }</td>
-								<td>${ complaint.rsagOwner }</td>
+								<td>${ closedComplaint.id }</td>
+								<td>${ closedComplaint.ticketNo }</td>
+								<td>${ closedComplaint.client }</td>
+								<td><fmt:formatDate type="date" dateStyle="short" value="${ closedComplaint.date }" /></td>
+								<td>${ closedComplaint.remarksAndAnalysis }</td>
+								<td>${ closedComplaint.responsibleTeam }</td>
+								<td>${ closedComplaint.status }</td>
+								<td>${ closedComplaint.rsagOwner }</td>
 							</tr>
 						</c:forEach>
 						<tr><td colspan="8">&nbsp;</td></tr>

@@ -5,6 +5,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.drewps.domain.FinalStatus;
+
 public class DataAccessObjectImpl implements DataAccessObject {
 	@PersistenceContext
 	private EntityManager em;
@@ -18,11 +20,30 @@ public class DataAccessObjectImpl implements DataAccessObject {
 		return em.merge(o);
 	}
 
-	public void delete(Object o) {
+	public void remove(Object o) {
 		em.remove(o);
 	}
 
-	public <T> List<T> getEntities(Class<T> clazz) {
-		return em.createQuery("SELECT c FROM " + clazz.getName() + " c", clazz).getResultList();
+	@Override
+	public <T> List<T> listOpenComplaints(Class<T> clazz) {
+		String query = "SELECT c FROM " + clazz.getName() + 
+				" c WHERE c.finalStatus = :finalStatus";
+		return em.createQuery(query, clazz)
+				.setParameter("finalStatus", FinalStatus.OPEN)
+				.getResultList();
+	}
+
+	@Override
+	public <T> List<T> listClosedComplaints(Class<T> clazz) {
+		String query = "SELECT c FROM " + clazz.getName() + 
+				" c WHERE c.finalStatus = :finalStatus";
+		return em.createQuery(query, clazz)
+				.setParameter("finalStatus", FinalStatus.CLOSED)
+				.getResultList();
+	}
+
+	@Override
+	public <T> T get(Long id, Class<T> clazz) {
+		return em.find(clazz, id);
 	}
 }

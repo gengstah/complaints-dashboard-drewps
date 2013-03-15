@@ -4,7 +4,7 @@
 		<li class="memu-root">
 			<a href="<c:url value="/" />"><fmt:message key="home" /></a>
 		</li>
-		<li class="memu-root">
+		<%-- <li class="memu-root">
 			<a href="<c:url value="#" />"><fmt:message key="clients" /></a>
 			<ul>
 				<li><a href="<c:url value="/secured/admin/companies/list.html" />"><fmt:message key="clientsListview" /></a></li>
@@ -38,7 +38,7 @@
 				<li><a href="<c:url value="/secured/miscellaneousexpenses/list.html" />"><fmt:message key="miscellaneousExpensesListview" /></a></li>
 				<li><a href="<c:url value="/secured/miscellaneousexpenses/addmiscellaneousexpense.html" />"><fmt:message key="newMiscellaneousExpense" /></a></li>
 			</ul>
-		</li>
+		</li> --%>
 		<li class="memu-root">
 			<a href="<c:url value="/secured/user/logout.html" />"><fmt:message key="logout" /></a>
 		</li>

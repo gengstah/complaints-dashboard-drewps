@@ -4,9 +4,12 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 @Entity
@@ -24,6 +27,8 @@ public class Complaint implements Serializable {
 	private String responsibleTeam;
 	private String status;
 	private String rsagOwner;
+	@Enumerated(EnumType.STRING)
+	private FinalStatus finalStatus;
 	
 	public Complaint() { }
 	
@@ -89,5 +94,18 @@ public class Complaint implements Serializable {
 
 	public void setRsagOwner(String rsagOwner) {
 		this.rsagOwner = rsagOwner;
+	}
+
+	public FinalStatus getFinalStatus() {
+		return finalStatus;
+	}
+
+	public void setFinalStatus(FinalStatus finalStatus) {
+		this.finalStatus = finalStatus;
+	}
+	
+	@PrePersist
+	public void prePersist() {
+		finalStatus = FinalStatus.OPEN;
 	}
 }

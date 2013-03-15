@@ -2,6 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:mvc="http://www.springframework.org/schema/mvc" 
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
@@ -10,7 +11,9 @@
 	    http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
 	    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
 		http://www.springframework.org/schema/context
-		http://www.springframework.org/schema/context/spring-context.xsd">
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop 
+        http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 	
 	<!-- 
 		This bean is used to tell Spring where to look for resources (i.e., JSP files)
@@ -26,6 +29,14 @@
 	</bean>
 	
 	<bean name="/secured/index.html" class="org.drewps.web.HomePageController">
+		<property name="complaintManager" ref="complaintManager" />
+	</bean>
+	
+	<bean name="/secured/admin/complaint/*.html" class="org.drewps.web.ComplaintController">
+		<property name="complaintManager" ref="complaintManager" />
+	</bean>
+	
+	<bean id="complaintManager" class="org.drewps.manager.ComplaintManagerImpl">
 		<property name="dao" ref="dao" />
 	</bean>
 	
@@ -62,6 +73,26 @@
 	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
 		<property name="basename" value="messages" />
 	</bean>
+	
+	<!-- Transaction Management -->
+	<bean id="transactionManager" 
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <aop:config>
+    	<aop:pointcut id="complaintManagerServiceOperation" expression="execution(* * ..ComplaintManager.*(..))"  />
+        <aop:advisor pointcut-ref="complaintManagerServiceOperation" advice-ref="txAdvice"/>
+    </aop:config>
+
+    <tx:advice id="txAdvice">
+        <tx:attributes>
+            <tx:method name="add"/>
+            <tx:method name="update"/>
+            <tx:method name="remove"/>
+            <tx:method name="*" read-only="true"/>
+        </tx:attributes>
+    </tx:advice>
 	
 	<!--<bean id="pool" class="org.apache.commons.pool.impl.GenericObjectPool">
 	    <property name="minEvictableIdleTimeMillis"><value>3600000</value></property>

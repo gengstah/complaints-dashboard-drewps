@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Unauthorized Access to Web Application</title>
+<title><fmt:message key="errorPageTitle" /></title>
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/style.css" />">
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/jquery-ui-1.8.16.custom.css" />">
 <script type="text/javascript" src="<c:url value="/js/jquery-1.6.2.min.js" />"></script>

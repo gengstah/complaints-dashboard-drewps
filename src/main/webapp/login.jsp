@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Login Page</title>
+<title><fmt:message key="loginPageTitle" /></title>
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/style.css" />">
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/menu.css" />">
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/jquery-ui-1.8.16.custom.css" />">
