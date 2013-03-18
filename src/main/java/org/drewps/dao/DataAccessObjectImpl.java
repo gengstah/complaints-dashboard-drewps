@@ -27,7 +27,8 @@ public class DataAccessObjectImpl implements DataAccessObject {
 	@Override
 	public <T> List<T> listOpenComplaints(Class<T> clazz) {
 		String query = "SELECT c FROM " + clazz.getName() + 
-				" c WHERE c.finalStatus = :finalStatus";
+				" c WHERE c.finalStatus = :finalStatus" +
+				" ORDER BY c.date DESC";
 		return em.createQuery(query, clazz)
 				.setParameter("finalStatus", FinalStatus.OPEN)
 				.getResultList();
@@ -36,7 +37,8 @@ public class DataAccessObjectImpl implements DataAccessObject {
 	@Override
 	public <T> List<T> listClosedComplaints(Class<T> clazz) {
 		String query = "SELECT c FROM " + clazz.getName() + 
-				" c WHERE c.finalStatus = :finalStatus";
+				" c WHERE c.finalStatus = :finalStatus" +
+				" ORDER BY c.date DESC";;
 		return em.createQuery(query, clazz)
 				.setParameter("finalStatus", FinalStatus.CLOSED)
 				.getResultList();
@@ -44,6 +46,11 @@ public class DataAccessObjectImpl implements DataAccessObject {
 
 	@Override
 	public <T> T get(Long id, Class<T> clazz) {
+		return em.find(clazz, id);
+	}
+
+	@Override
+	public <T> T get(String id, Class<T> clazz) {
 		return em.find(clazz, id);
 	}
 }

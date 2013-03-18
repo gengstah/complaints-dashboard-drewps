@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "COMPLAINT")
@@ -20,7 +21,9 @@ public class Complaint implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	private Long ticketNo;
+	
+	@NotNull(message = "Ticket # may not be null")
+	private String ticketNo;
 	private String client;
 	private Date date;
 	private String remarksAndAnalysis;
@@ -40,11 +43,11 @@ public class Complaint implements Serializable {
 		this.id = id;
 	}
 
-	public Long getTicketNo() {
+	public String getTicketNo() {
 		return ticketNo;
 	}
 
-	public void setTicketNo(Long ticketNo) {
+	public void setTicketNo(String ticketNo) {
 		this.ticketNo = ticketNo;
 	}
 
@@ -107,5 +110,21 @@ public class Complaint implements Serializable {
 	@PrePersist
 	public void prePersist() {
 		finalStatus = FinalStatus.OPEN;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("[id=").append(getId()).append(" | ");
+		sb.append("ticketNo=").append(getTicketNo()).append(" | ");
+		sb.append("client=").append(getClient()).append(" | ");
+		sb.append("date=").append(getDate()).append(" | ");
+		sb.append("remarksAndAnalysis=").append(getRemarksAndAnalysis()).append(" | ");
+		sb.append("responsibleTeam=").append(getResponsibleTeam()).append(" | ");
+		sb.append("status=").append(getStatus()).append(" | ");
+		sb.append("rsagOwner=").append(getRsagOwner()).append(" | ");
+		sb.append("finalStatus=").append(getFinalStatus()).append("]");
+		
+		return sb.toString();
 	}
 }

@@ -14,7 +14,12 @@ $(document).ready(function(){
 		}*/
 	});
 	
-	$("input:button#addComplaintButton").button().click(function() {
+	$("input:button#submitComplaintButton").button().click(function() {
 		$('form#complaint').submit();
 	});
+	
+	$("input:button#cancelComplaintButton").button();
+	$("input:button#addComplaintButton").button();
+	$("input:button#deleteComplaintButton").button();
+	$("input:button#reopenComplaintButton").button();
 });

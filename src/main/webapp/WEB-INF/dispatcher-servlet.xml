@@ -28,15 +28,25 @@
 		</property>
 	</bean>
 	
-	<bean name="/secured/index.html" class="org.drewps.web.HomePageController">
+	
+	<!-- URL Mappings -->
+	<!-- <bean name="/secured/index.html" class="org.drewps.web.HomePageController">
 		<property name="complaintManager" ref="complaintManager" />
+		<property name="userManager" ref="userManager" />
+	</bean> -->
+	
+	<bean class="org.drewps.web.ComplaintController">
+		<property name="complaintManager" ref="complaintManager" />
+		<property name="customPropertyEditorRegistrar" ref="customPropertyEditorRegistrar" />
 	</bean>
 	
-	<bean name="/secured/admin/complaint/*.html" class="org.drewps.web.ComplaintController">
-		<property name="complaintManager" ref="complaintManager" />
-	</bean>
+	<bean name="/secured/user/logout.html" class="org.drewps.web.LogoutController" />
 	
 	<bean id="complaintManager" class="org.drewps.manager.ComplaintManagerImpl">
+		<property name="dao" ref="dao" />
+	</bean>
+	
+	<bean id="userManager" class="org.drewps.manager.UserManagerImpl">
 		<property name="dao" ref="dao" />
 	</bean>
 	
@@ -75,9 +85,10 @@
 	</bean>
 	
 	<!-- Transaction Management -->
+	<!-- class="org.springframework.jdbc.datasource.DataSourceTransactionManager"> -->
 	<bean id="transactionManager" 
-          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="dataSource"/>
+			class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="emf" />
     </bean>
 
     <aop:config>
@@ -85,14 +96,44 @@
         <aop:advisor pointcut-ref="complaintManagerServiceOperation" advice-ref="txAdvice"/>
     </aop:config>
 
-    <tx:advice id="txAdvice">
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
         <tx:attributes>
-            <tx:method name="add"/>
-            <tx:method name="update"/>
-            <tx:method name="remove"/>
-            <tx:method name="*" read-only="true"/>
+            <tx:method name="add*" />
+            <tx:method name="update*" />
+            <tx:method name="remove*" />
+            <tx:method name="*" read-only="true" />
         </tx:attributes>
     </tx:advice>
+    
+    <!-- Custom Date Property Editor -->
+    <bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+		<!-- <property name="customEditors">
+			<map>
+				<entry key="java.util.Date" value="org.drewps.propertyeditor.CustomDateEditor"/>
+			</map>
+		</property> -->
+		
+		<property name="propertyEditorRegistrars">
+			<list>
+				<ref bean="customPropertyEditorRegistrar" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="customPropertyEditorRegistrar" class="org.drewps.propertyeditor.CustomDatePropertyRegistrar" />
+	
+	<!-- JSR-303 Validator -->
+	<!-- <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/> -->
+	<mvc:annotation-driven />
+	
+	<!-- For @Component, @Repository, @Service, and @Controller -->
+	<!-- <context:component-scan base-package="org.drewps.web" />
+	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" /> -->
+	
+	
+	
+	
 	
 	<!--<bean id="pool" class="org.apache.commons.pool.impl.GenericObjectPool">
 	    <property name="minEvictableIdleTimeMillis"><value>3600000</value></property>

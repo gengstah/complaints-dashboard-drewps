@@ -11,11 +11,11 @@
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/jquery-ui-1.8.16.custom.css" />">
 <script type="text/javascript" src="<c:url value="/js/jquery-1.6.2.min.js" />"></script>
 <script type="text/javascript" src="<c:url value="/js/jquery-ui-1.8.16.custom.min.js" />"></script>
-<script type="text/javascript" src="<c:url value="/js/companypage.js" />"></script>
+<script type="text/javascript" src="<c:url value="/js/complaint.js" />"></script>
 </head>
 <body class = "standard">
 <div align="center">
-<form id="complaintForm" name="complaintForm" method="POST" action="<c:url value = "/secured/admin/companies/list.html"/>">
+<form id="complaintForm" name="complaintForm" method="POST" action="<c:url value = "/webapp/secured/complaints"/>">
 	<table border="1" class="altrowstable">
 		<%-- <tr>
 			<td><%@ include file="include/banner.jsp" %></td>
@@ -50,7 +50,7 @@
 		</tr> --%>
 		<tr>
 			<td>
-				<table width="790">
+				<table width="1080">
 					<thead>
 						<tr class="evenrowcolor">
 							<th><font color="#FFFFFF"><fmt:message key="id" /></font></th>
@@ -65,8 +65,8 @@
 					</thead>
 					<tbody>
 						<c:forEach items="${ openComplaints }" var = "openComplaint" varStatus="status">
-							<tr onMouseOver="this.className='highlight'" onMouseOut="this.className=''" onclick="window.location = '<c:url value='/secured/admin/companies/companyinfo.html?companyAccountNo=${ company.accountNo }' />';">
-								<td>${ openComplaint.id }</td>
+							<tr onMouseOver="this.className='highlight'" onMouseOut="this.className=''" onclick="window.location = '<c:url value='/webapp/secured/admin/complaint/update/${ openComplaint.id }' />';">
+								<td>${ status.count }</td>
 								<td>${ openComplaint.ticketNo }</td>
 								<td>${ openComplaint.client }</td>
 								<td><fmt:formatDate type="date" dateStyle="short" value="${ openComplaint.date }" /></td>
@@ -84,7 +84,7 @@
 						</tr> --%>
 						<tr>
 							<td colspan="8" align="left">
-								<input id="addComplaintButton" type="button" value="<fmt:message key="addComplaintButton" />" onclick="window.location = '<c:url value='/secured/admin/complaint/add.html' />';" />
+								<input id="addComplaintButton" type="button" value="<fmt:message key="addComplaintButton" />" onclick="window.location = '<c:url value='/webapp/secured/admin/complaint/new' />';" />
 							</td>
 						</tr>
 					</tfoot>
@@ -96,14 +96,14 @@
 		</tr>
 		<tr>
 			<td>
-				<table width="790">
+				<table width="1080">
 					<thead>
 						<tr class="evenrowcolor">
-							<th><font color="#FFFFFF"><fmt:message key="number" /></font></th>
+							<th><font color="#FFFFFF"><fmt:message key="id" /></font></th>
 							<th><font color="#FFFFFF"><fmt:message key="ticketNo" /></font></th>
 							<th><font color="#FFFFFF"><fmt:message key="client" /></font></th>
 							<th><font color="#FFFFFF"><fmt:message key="date" /></font></th>
-							<th><font color="#FFFFFF"><fmt:message key="remarksAnalysis" /></font></th>
+							<th><font color="#FFFFFF"><fmt:message key="remarksAndAnalysis" /></font></th>
 							<th><font color="#FFFFFF"><fmt:message key="responsibleTeam" /></font></th>
 							<th><font color="#FFFFFF"><fmt:message key="status" /></font></th>
 							<th><font color="#FFFFFF"><fmt:message key="rsagOwner" /></font></th>
@@ -111,8 +111,8 @@
 					</thead>
 					<tbody>
 						<c:forEach items="${ closedComplaints }" var = "closedComplaint" varStatus="status">
-							<tr onMouseOver="this.className='highlight'" onMouseOut="this.className=''" onclick="window.location = '<c:url value='/secured/admin/companies/companyinfo.html?companyAccountNo=${ company.accountNo }' />';">
-								<td>${ closedComplaint.id }</td>
+							<tr onMouseOver="this.className='highlight'" onMouseOut="this.className=''" onclick="window.location = '<c:url value='/webapp/secured/admin/complaint/update/${ closedComplaint.id }' />';">
+								<td>${ status.count }</td>
 								<td>${ closedComplaint.ticketNo }</td>
 								<td>${ closedComplaint.client }</td>
 								<td><fmt:formatDate type="date" dateStyle="short" value="${ closedComplaint.date }" /></td>

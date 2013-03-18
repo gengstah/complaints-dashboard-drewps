@@ -8,6 +8,7 @@ public interface ComplaintManager {
 	Complaint addComplaint(Complaint complaint);
 	Complaint updateComplaint(Complaint complaint);
 	Complaint removeComplaint(Complaint complaint);
+	Complaint reopenComplaint(Complaint complaint);
 	List<Complaint> getOpenComplaints();
 	List<Complaint> getClosedComplaints();
 	Complaint findComplaint(Long id);

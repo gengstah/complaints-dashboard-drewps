@@ -9,4 +9,5 @@ public interface DataAccessObject {
 	<T> List<T> listOpenComplaints(Class<T> clazz);
 	<T> List<T> listClosedComplaints(Class<T> clazz);
 	<T> T get(Long id, Class<T> clazz);
+	<T> T get(String id, Class<T> clazz);
 }

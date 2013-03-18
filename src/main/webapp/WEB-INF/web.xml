@@ -13,7 +13,8 @@
   
   <servlet-mapping>
     <servlet-name>dispatcher</servlet-name>
-    <url-pattern>*.html</url-pattern>
+    <url-pattern>/webapp</url-pattern>
+    <url-pattern>/webapp/*</url-pattern>
   </servlet-mapping>
   <!-- ========================================================== -->
   <!-- Servlet Configuration - END -->
@@ -65,7 +66,7 @@
   	<web-resource-collection>
   		<web-resource-name>ProjectManagement</web-resource-name>
   		<description>Administrator and user access only</description>
-  		<url-pattern>/secured/*</url-pattern>
+  		<url-pattern>/webapp/secured/*</url-pattern>
   		<http-method>POST</http-method>
   		<http-method>GET</http-method>
   	</web-resource-collection>
@@ -80,7 +81,7 @@
   	<web-resource-collection>
   		<web-resource-name>AdminProjectManagement</web-resource-name>
   		<description>Administrator access only</description>
-  		<url-pattern>/secured/admin/*</url-pattern>
+  		<url-pattern>/webapp/secured/admin/*</url-pattern>
   		<http-method>POST</http-method>
   		<http-method>GET</http-method>
   	</web-resource-collection>

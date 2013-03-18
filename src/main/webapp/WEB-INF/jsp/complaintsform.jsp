@@ -15,7 +15,7 @@
 </head>
 <body class = "standard">
 	<div align="center">
-		<table border="1" class="altrowstable">
+		<table border="1" class="altrowstable" width="1080">
 			<%-- <tr>
 				<td><%@ include file="include/banner.jsp" %></td>
 			</tr> --%>
@@ -24,8 +24,9 @@
 			</tr>
 			<tr>
 				<td>
-					<form:form method="POST" commandName="complaint" action="/secured/admin/complaint/add.html">
+					<form:form method="POST" commandName="complaint">
 						<form:hidden path="id" autocomplete="off" maxlength="15" />
+						<form:hidden path="finalStatus" autocomplete="off" maxlength="15" />
 						<table class="altrowstable">
 							<tbody>
 								<tr>
@@ -66,8 +67,19 @@
 							<tfoot>
 								<tr>
 									<td colspan="2" align="left">
-										<input id="addComplaintButton" type="button" value="<fmt:message key="submit" />" />
-										<input id="cancelComplaintButton" type="button" value="<fmt:message key="cancel" />" onclick="window.location = '<c:url value='${ sessionScope.navigation }' />';" />
+										<c:if test="${ not empty complaint.id }">
+											<c:if test="${ complaint.finalStatus == 'OPEN' }">
+												<input id="deleteComplaintButton" type="button" value="<fmt:message key="delete" />" onclick="window.location = '<c:url value='/webapp/secured/admin/complaint/remove/${ complaint.id }' />';" />
+												<input id="submitComplaintButton" type="button" value="<fmt:message key="submit" />" />
+											</c:if>
+											<c:if test="${ complaint.finalStatus == 'CLOSED' }">
+												<input id="reopenComplaintButton" type="button" value="<fmt:message key="reopen" />" onclick="window.location = '<c:url value='/webapp/secured/admin/complaint/reopen/${ complaint.id }' />';" />
+											</c:if>
+										</c:if>
+										<c:if test="${ empty complaint.id }">
+											<input id="submitComplaintButton" type="button" value="<fmt:message key="submit" />" />
+										</c:if>
+										<input id="cancelComplaintButton" type="button" value="<fmt:message key="cancel" />" onclick="window.location = '<c:url value='/webapp/secured/complaints' />';" />
 									</td>
 								</tr>
 							</tfoot>

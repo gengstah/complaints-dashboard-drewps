@@ -40,7 +40,7 @@
 			</ul>
 		</li> --%>
 		<li class="memu-root">
-			<a href="<c:url value="/secured/user/logout.html" />"><fmt:message key="logout" /></a>
+			<a href="<c:url value="/webapp/secured/logout" />"><fmt:message key="logout" /></a>
 		</li>
 	</ul>
 </div>
