@@ -82,6 +82,14 @@ public class ComplaintController {
 		return "redirect:/webapp/secured/complaints";
 	}
 	
+	@RequestMapping(value = "/secured/admin/complaint/remove-permanent/{id}", method = RequestMethod.GET)
+	public String removeComplaintFormPermanently(@PathVariable Long id) {
+		Complaint complaint = complaintManager.findComplaint(id);
+		complaintManager.removeComplaintPermanently(complaint);
+		
+		return "redirect:/webapp/secured/complaints";
+	}
+	
 	@RequestMapping(value = "/secured/admin/complaint/reopen/{id}", method = RequestMethod.GET)
 	public String reopenComplaintForm(@PathVariable Long id) {
 		Complaint complaint = complaintManager.findComplaint(id);

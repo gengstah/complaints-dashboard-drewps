@@ -38,10 +38,16 @@ public class DataAccessObjectImpl implements DataAccessObject {
 	public <T> List<T> listClosedComplaints(Class<T> clazz) {
 		String query = "SELECT c FROM " + clazz.getName() + 
 				" c WHERE c.finalStatus = :finalStatus" +
-				" ORDER BY c.date DESC";;
+				" ORDER BY c.date DESC";
 		return em.createQuery(query, clazz)
 				.setParameter("finalStatus", FinalStatus.CLOSED)
 				.getResultList();
+	}
+	
+	@Override
+	public <T> List<T> listUsers(Class<T> clazz) {
+		String query = "SELECT c FROM " + clazz.getName() + " c";
+		return em.createQuery(query, clazz).getResultList();
 	}
 
 	@Override

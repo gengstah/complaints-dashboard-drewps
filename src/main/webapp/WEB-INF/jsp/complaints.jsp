@@ -65,14 +65,15 @@
 					</thead>
 					<tbody>
 						<c:forEach items="${ openComplaints }" var = "openComplaint" varStatus="status">
+							<c:set var="newlineChar" value="\n"/>
 							<tr onMouseOver="this.className='highlight'" onMouseOut="this.className=''" onclick="window.location = '<c:url value='/webapp/secured/admin/complaint/update/${ openComplaint.id }' />';">
 								<td>${ status.count }</td>
 								<td>${ openComplaint.ticketNo }</td>
 								<td>${ openComplaint.client }</td>
 								<td><fmt:formatDate type="date" dateStyle="short" value="${ openComplaint.date }" /></td>
-								<td>${ openComplaint.remarksAndAnalysis }</td>
+								<td><c:out value="${ fn:replace(openComplaint.remarksAndAnalysis, newline, '<br />') }" escapeXml="false" /></td>
 								<td>${ openComplaint.responsibleTeam }</td>
-								<td>${ openComplaint.status }</td>
+								<td>${ openComplaint.status } (${ openComplaint.daysPassed }d)</td>
 								<td>${ openComplaint.rsagOwner }</td>
 							</tr>
 						</c:forEach>
@@ -136,6 +137,9 @@
 					</tfoot> --%>
 				</table>
 			</td>
+		</tr>
+		<tr>
+			<td><input id="exportToExcelButton" type="button" value="<fmt:message key="exportToExcelButton" />" onclick="window.location = '<c:url value='/webapp/secured/admin/excel' />';" /></td>
 		</tr>
 	</table>
 </form>

@@ -5,6 +5,9 @@
 			<a href="<c:url value="/" />"><fmt:message key="home" /></a>
 		</li>
 		<%-- <li class="memu-root">
+			<a href="<c:url value="/webapp/secured/admin/users" />"><fmt:message key="userManagement" /></a>
+		</li> --%>
+		<%-- <li class="memu-root">
 			<a href="<c:url value="#" />"><fmt:message key="clients" /></a>
 			<ul>
 				<li><a href="<c:url value="/secured/admin/companies/list.html" />"><fmt:message key="clientsListview" /></a></li>

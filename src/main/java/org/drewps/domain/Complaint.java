@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -105,6 +106,13 @@ public class Complaint implements Serializable {
 
 	public void setFinalStatus(FinalStatus finalStatus) {
 		this.finalStatus = finalStatus;
+	}
+	
+	@Transient
+	public int getDaysPassed() {
+		long timeDifference = new Date().getTime() - date.getTime();
+		
+		return (int)(timeDifference / 1000 / 60 / 60 / 24);
 	}
 	
 	@PrePersist

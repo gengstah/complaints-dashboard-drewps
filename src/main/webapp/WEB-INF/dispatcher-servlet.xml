@@ -40,7 +40,15 @@
 		<property name="customPropertyEditorRegistrar" ref="customPropertyEditorRegistrar" />
 	</bean>
 	
-	<bean name="/secured/user/logout.html" class="org.drewps.web.LogoutController" />
+	<bean class="org.drewps.web.UserController">
+		<property name="userManager" ref="userManager" />
+	</bean>
+	
+	<bean class="org.drewps.web.ExcelComplaintController">
+		<property name="complaintManager" ref="complaintManager" />
+	</bean>
+	
+	<bean class="org.drewps.web.LogoutController" />
 	
 	<bean id="complaintManager" class="org.drewps.manager.ComplaintManagerImpl">
 		<property name="dao" ref="dao" />
@@ -93,7 +101,9 @@
 
     <aop:config>
     	<aop:pointcut id="complaintManagerServiceOperation" expression="execution(* * ..ComplaintManager.*(..))"  />
+    	<aop:pointcut id="userManagerServiceOperation" expression="execution(* * ..UserManager.*(..))"  />
         <aop:advisor pointcut-ref="complaintManagerServiceOperation" advice-ref="txAdvice"/>
+        <aop:advisor pointcut-ref="userManagerServiceOperation" advice-ref="txAdvice"/>
     </aop:config>
 
     <tx:advice id="txAdvice" transaction-manager="transactionManager">
@@ -131,9 +141,12 @@
 	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" /> -->
 	
-	
-	
-	
+	<bean class="org.springframework.web.servlet.view.XmlViewResolver">
+		<property name="location">
+			<value>/WEB-INF/spring-excel-views.xml</value>
+	   </property>
+	   <property name="order" value="0" />
+	</bean>
 	
 	<!--<bean id="pool" class="org.apache.commons.pool.impl.GenericObjectPool">
 	    <property name="minEvictableIdleTimeMillis"><value>3600000</value></property>

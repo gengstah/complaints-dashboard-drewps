@@ -5,11 +5,13 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.apache.catalina.realm.RealmBase;
 
@@ -40,6 +42,7 @@ public class User implements Serializable {
 	
 	@Id
 	@Column(name="USERNAME", nullable=false, length=20)
+	@NotNull(message="username must not be blank")
 	public String getUsername() {
 		return username;
 	}
@@ -49,6 +52,7 @@ public class User implements Serializable {
 	}
 
 	@Column(name="PASSWORD", nullable=false, length=32)
+	@NotNull(message="password must not be blank")
 	public String getPassword() {
 		return password;
 	}
@@ -66,7 +70,7 @@ public class User implements Serializable {
 		this.roles = roles;
 	}
 
-	@ManyToMany
+	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(name = "USERS_ROLENAMES", joinColumns = { @JoinColumn(name = "USERNAME", referencedColumnName = "USERNAME") }, inverseJoinColumns = { @JoinColumn(name = "ROLENAME", referencedColumnName = "ROLENAME") })
 	public List<Role> getRoles() {
 		return roles;

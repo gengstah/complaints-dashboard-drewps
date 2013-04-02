@@ -48,7 +48,7 @@
 								</tr>
 								<tr>
 									<td align="left"><fmt:message key="remarksAndAnalysis" />:</td>
-									<td align="left"><form:input path="remarksAndAnalysis" autocomplete="off" maxlength="50" /></td>
+									<td align="left"><form:textarea path="remarksAndAnalysis" rows="10" cols="30" /></td>
 								</tr>
 								<tr>
 									<td align="left"><fmt:message key="responsibleTeam" />:</td>
@@ -74,6 +74,7 @@
 											</c:if>
 											<c:if test="${ complaint.finalStatus == 'CLOSED' }">
 												<input id="reopenComplaintButton" type="button" value="<fmt:message key="reopen" />" onclick="window.location = '<c:url value='/webapp/secured/admin/complaint/reopen/${ complaint.id }' />';" />
+												<input id="removeComplaintPermanentlyButton" type="button" value="<fmt:message key="delete" />" onclick="window.location = '<c:url value='/webapp/secured/admin/complaint/remove-permanent/${ complaint.id }' />';" />
 											</c:if>
 										</c:if>
 										<c:if test="${ empty complaint.id }">

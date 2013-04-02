@@ -40,6 +40,13 @@ public class ComplaintManagerImpl implements ComplaintManager {
 		log.info("ComplaintManagerImpl.reopenComplaint(Complaint) reopened Complaint " + complaint);
 		return complaint;
 	}
+	
+	@Override
+	public void removeComplaintPermanently(Complaint complaint) {
+		complaint = findComplaint(complaint.getId());
+		dao.remove(complaint);
+		log.info("ComplaintManagerImpl.removeComplaintPermanently(Complaint) removed permanently Complaint " + complaint);
+	}
 
 	@Override
 	public List<Complaint> getOpenComplaints() {

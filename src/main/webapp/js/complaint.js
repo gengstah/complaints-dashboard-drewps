@@ -22,4 +22,19 @@ $(document).ready(function(){
 	$("input:button#addComplaintButton").button();
 	$("input:button#deleteComplaintButton").button();
 	$("input:button#reopenComplaintButton").button();
+	$("input:button#removeComplaintPermanentlyButton").button();
+	$("input:button#exportToExcelButton").button();
+	/*$( "#dialog-confirm" ).dialog({
+		resizable: false,
+		height:140,
+		modal: true,
+		buttons: {
+				"Delete complaint": function() {
+						$( this ).dialog( "close" );
+				},
+				Cancel: function() {
+						$( this ).dialog( "close" );
+				}
+		}
+	});*/
 });
